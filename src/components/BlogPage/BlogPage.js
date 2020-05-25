@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import { firestore } from "../../firebase";
 import WithStyles from "@material-ui/styles/withStyles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {
@@ -11,7 +12,7 @@ import {
 	ListItemText,
 } from "@material-ui/core";
 import { Link } from "@material-ui/core";
-import articlesUtil from "../../services/articles";
+import BlogWrite from "./BlogWrite";
 
 const backgroundShape = require("../../illustrations/shape.svg");
 
@@ -65,6 +66,7 @@ class BlogPage extends Component {
 	constructor(props) {
 		super(props);
 		this.tempCollection = null;
+		this.ref = firestore.collection("articles");
 		this.state = {
 			articles: [],
 		};
@@ -93,40 +95,20 @@ class BlogPage extends Component {
 			articles: posts,
 		});
 	};
-	loadArticles = () => {
-		const articles = articlesUtil.listAll();
-
-		this.setState({
-			articles,
-		});
-	};
 
 	componentDidMount() {
-		this.loadArticles();
-		// this.tempCollection = this.ref.onSnapshot(this.onLoadArticles);
-		/* const posts = [];
-		this.dbRef.get().then((querySnapshot) => {
-			const data = querySnapshot.docs.map((doc) => doc.data());
-			console.log(data); // array of cities objects
-			data.forEach((doc) => {
-				const { title, author } = doc.data();
-				posts.push({
-					key: doc.id,
-					title,
-					author,
-				});
-			});
-		});
+		// this.loadArticles();
+		this.tempCollection = this.ref.onSnapshot(this.onLoadArticles);
+	}
 
-		this.setState({
-			articles: posts,
-		}); */
+	componentDidUpdate() {
+		this.tempCollection = this.ref.onSnapshot(this.onLoadArticles);
 	}
 
 	render() {
 		const { classes } = this.props;
 		const { articles } = this.state;
-		console.log(articles);
+		// console.log(articles);
 		return (
 			<Fragment>
 				<CssBaseline />
@@ -260,6 +242,9 @@ class BlogPage extends Component {
 												</ListItem>
 											))}
 										</List>
+									</div>
+									<div>
+										<BlogWrite />
 									</div>
 								</Paper>
 							</Grid>
