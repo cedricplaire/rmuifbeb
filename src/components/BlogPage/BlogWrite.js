@@ -1,16 +1,14 @@
 import React, { Component } from "react";
-import {firestore} from "../../firebase";
+import firebase, {firestore} from "../../firebase";
 import WithStyles from "@material-ui/styles/withStyles";
+import {
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 import {
     TextField,
     Button
 } from "@material-ui/core";
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
 
 const styles = (theme) => ({
 	grid: {
@@ -30,6 +28,7 @@ const styles = (theme) => ({
 		textAlign: "center",
 	},
 	block: {
+        width: "100%",
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "space-evenly",
@@ -45,6 +44,7 @@ const styles = (theme) => ({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
+        marginBottom: "10px",
 	},
 });
 
@@ -52,10 +52,10 @@ class BlogWrite extends Component {
     constructor(props) {
         super(props);
 		this.state = {
-            author: "your name",
-            title: "post title",
-            createdAt: new Date().toLocaleString(),
-            content: "article body content",
+            author: "author",
+            title: "title",
+            createdAt: new Date(),
+            content: "article content",
         };
         this.ref = firestore.collection("articles");
     }
@@ -73,76 +73,92 @@ class BlogWrite extends Component {
     }
 
     onSubmit = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
 
-        const { title, author } = this.state;
+        const { title, author, createdAt, content } = this.state;
+        // const date = firebase.firestore.Timestamp.fromDate(createdAt);
 
         this.ref.add({
             title,
-            author
+            author,
+            createdAt: firebase.firestore.Timestamp.fromDate(createdAt),
+            content,
         }).then((docRef) => {
             this.setState({
                 title: '',
-                author: ''
+                author: '',
+                createdAt: new Date(),
+                content: "article body content",
             });
-            this.props.history.push("/blog");
-            console.log("doc added "+ docRef);
+            this.props.history.push("/");
+            //console.log("doc added "+ docRef);
         })
         .catch((error) => {
             console.error("Error adding article: ", error);
         });
-        e.preventDefault();
+    }
+
+    componentWillUnmount() {
+        this.ref = null;
     }
 
     render() {
         const { classes } = this.props;
         const { author, title, createdAt, content } = this.state;
         return (
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <div className={classes.divForm}>
                 <form onSubmit={this.onSubmit} noValidate autoComplete="off">
-                    <div className={classes.divForm}>
-                        <div className={classes.divForm1}>
-                            <TextField
-                                id="input-author"
-                                name="author"
-                                label="your name"
-                                onChange={this.onChange}
-                                value={author}
-                            />
-                            <TextField
-                                id="input-title"
-                                name="title"
-                                label="article title"
-                                onChange={this.onChange}
-                                value={title}
-                            />
-                            <KeyboardDatePicker
-                                margin="normal"
-                                id="date-picker-dialog"
-                                label="Date picker dialog"
-                                format="dd/MM/yyyy"
-                                value={createdAt}
-                                onChange={this.handleDateChange}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change date',
-                                }}
-                            />
-                        </div>
-                        <div className={classes.divForm1}>
-                            <TextField
-                                multiline
-                                fullWidth
-                                name="content"
-                                rows={4}
-                                variant="outlined"
-                                value={content}
-                                onChange={this.onChange}
-                            ></TextField>
-                        </div>
-                        <Button type="submit">Save</Button>
+                    <div className={classes.divForm1}>
+                        <TextField
+                            id="input-author"
+                            name="author"
+                            label="article author"
+                            color="secondary"
+                            onChange={this.onChange}
+                            value={author}
+                        />
+                        <TextField
+                            id="input-title"
+                            name="title"
+                            label="article title"
+                            color="secondary"
+                            onChange={this.onChange}
+                            value={title}
+                        />
+                        <KeyboardDatePicker
+                            id="date-picker-dialog"
+                            label="Select date"
+                            name="createdAt"
+                            color="secondary"
+                            format="dd/MM/yyyy"
+                            value={createdAt}
+                            onChange={this.handleDateChange}
+                            KeyboardButtonProps={{
+                                'aria-label': 'Select date',
+                            }}
+                        />
                     </div>
+                    <div className={classes.divForm1}>
+                        <TextField
+                            multiline
+                            fullWidth
+                            name="content"
+                            rows={6}
+                            variant="outlined"
+                            color="secondary"
+                            value={content}
+                            onChange={this.onChange}
+                        />
+                    </div>
+                    <Button
+                        type="submit"
+                        variant="outlined"
+                        color="secondary"
+                    >
+                        Save
+                    </Button>
                 </form>
-            </MuiPickersUtilsProvider>
+            </div>
         )
     }
 }

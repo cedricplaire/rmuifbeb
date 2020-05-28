@@ -37,6 +37,10 @@ class Router extends Component {
 						<BlogPage user={user} openSnackbar={openSnackbar} />
 					</Route>
 
+					<Route path='/blog/:blogId'>
+						<BlogPage  openSnackbar={openSnackbar} />
+					</Route>
+
 					<Route path='/news'>
 						<NewsPage openSnackbar={openSnackbar} />
 					</Route>

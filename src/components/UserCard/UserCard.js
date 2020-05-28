@@ -5,6 +5,11 @@ import PropTypes from "prop-types";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import UserAvatar from "../UserAvatar";
+import {
+	FiberManualRecord as FiberManualRecordIcon,
+	Brightness4 as Brightness4Icon,
+} from "@material-ui/icons";
+import appearance from "../../services/appearance";
 
 function UserCard(props) {
 	const user = props.user;
@@ -20,7 +25,7 @@ function UserCard(props) {
 				<UserAvatar user={Object.assign(user, data)} />
 			</CardContent>
 			<CardContent>
-				<Typography variant='h3'>Your personnalized Theme</Typography>
+				<Typography variant='h5'>Your personnalized Theme</Typography>
 				<Typography color={user.theme.primaryColor}>
 					Primary Color :{user.theme.primaryColor}
 				</Typography>
