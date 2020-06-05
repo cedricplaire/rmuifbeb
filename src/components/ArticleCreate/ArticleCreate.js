@@ -5,8 +5,7 @@ import withStyles from "@material-ui/styles/withStyles";
 import MomentUtils from '@date-io/moment';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
+  KeyboardDateTimePicker
 } from '@material-ui/pickers';
 import {
     TextField,
@@ -86,7 +85,7 @@ class ArticleCreate extends React.Component {
             title,
             author,
             category,
-            createdAt: firebase.firestore.Timestamp.fromDate(createdAt),
+            createdAt: firebase.firestore.Timestamp.fromDate(new Date(createdAt)),
             content,
         }).then((docRef) => {
             this.setState({
@@ -96,7 +95,7 @@ class ArticleCreate extends React.Component {
                 createdAt: new Date(),
                 content: "article body content",
             });
-            this.props.history.push("/");
+            this.props.history.push("/blog");
         })
         .catch((error) => {
             console.error("Error adding article: ", error);
@@ -119,7 +118,7 @@ class ArticleCreate extends React.Component {
     render() {
         const { classes } = this.props;
         const { author, title, category, createdAt, content } = this.state;
-        console.log(author);
+
         return (
             <MuiPickersUtilsProvider utils={MomentUtils}>
             <div className={classes.divForm}>
@@ -134,7 +133,7 @@ class ArticleCreate extends React.Component {
                             onChange={this.onInputChange}
                             value={author}
                         />
-                        <KeyboardDatePicker
+                        <KeyboardDateTimePicker
                             id="date-picker-dialog"
                             label="Select date"
                             name="createdAt"

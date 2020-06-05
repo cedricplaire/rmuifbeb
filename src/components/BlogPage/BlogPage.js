@@ -202,8 +202,7 @@ class BlogPage extends Component {
 		let { path, url } = this.props.match;
 		const { classes } = this.props;
 		const { category, categories, articles } = this.state;
-		console.log(category);
-		console.log(this.docRef.toString());
+
 		return (
 			<Fragment>
 				<CssBaseline />
