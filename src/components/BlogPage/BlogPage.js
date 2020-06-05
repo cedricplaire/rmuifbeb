@@ -63,9 +63,18 @@ const styles = (theme) => ({
 		flexDirection: "column",
 		textTransform: "none",
 	},
+	blockPaper: {
+		width: "100%",
+		minHeight: 158,
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "space-around",
+		padding: theme.spacing(3),
+		color: theme.palette.text.secondary,
+	},
 	box: {
 		marginBottom: 10,
-		height: 65,
+		height: 30,
 	},
 	listGrow: {
 		flexGrow: 1,
@@ -133,6 +142,7 @@ class BlogPage extends Component {
                 });
                 this.setState({
 					categories: categ,
+					category: categ[0].name,
                 });
             })
             .catch(function(error) {
@@ -174,7 +184,11 @@ class BlogPage extends Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.category !== this.state.category) {
-			this.docRef = firestore.collection("articles").where("category", "==", this.state.category);
+			if (this.state.category !== "All") {
+				this.docRef = firestore.collection("articles").where("category", "==", this.state.category);
+			} else {
+				this.docRef = firestore.collection("articles");
+			}
 			this.onLoadArticles();
 		}
 	}
@@ -188,7 +202,8 @@ class BlogPage extends Component {
 		let { path, url } = this.props.match;
 		const { classes } = this.props;
 		const { category, categories, articles } = this.state;
-		//console.log(category);
+		console.log(category);
+		console.log(this.docRef.toString());
 		return (
 			<Fragment>
 				<CssBaseline />
@@ -213,10 +228,11 @@ class BlogPage extends Component {
 										>
 											Filter by category
 										</Typography>
-										<FormControl className={classes.formControl}>
+									</div>
+									<div>
+										<FormControl fullWidth>
 											<InputLabel id="categ-select-label">Category</InputLabel>
 											<Select
-											autoWidth
 											native={false}
 											labelId="categ-select-label"
 											id="categorySelectId"
@@ -229,13 +245,13 @@ class BlogPage extends Component {
 												</MenuItem>
 											))};
 											</Select>
-											<FormHelperText>Go to category</FormHelperText>
+											<FormHelperText>Select "All" disable filter</FormHelperText>
 										</FormControl>
 									</div>
 								</Paper>
 							</Grid>
 							<Grid item xs={12} md={6}>
-								<Paper className={classes.paper}>
+								<Paper className={classes.paper} style={{minHeight: 158}}>
 									<div className={classes.box}>
 										<Typography
 											style={{

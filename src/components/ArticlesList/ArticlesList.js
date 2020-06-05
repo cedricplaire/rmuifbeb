@@ -88,24 +88,14 @@ const ArticlesList = props => {
 											<ListItem key={items.key} className={classes.blockCol}>
 												<div className={classes.block}>
 													<ListItemText
-														primary={items.author}
-														secondary={items.title}
+														primary={`Author: ${items.author}`}
+														secondary={`Title: ${items.title}`}
 													/>
-													
-													
-													<div className={classes.blockCol}>
-														<span style={{marginTop: "6px"}} >
-														{items.createdAt ? (
-															new Date(items.createdAt.seconds * 1000).toLocaleDateString("fr-FR")
-														): (
-															""
-														)}
-														<Icon>
-															<CalendarIcon />
-														</Icon>
-														</span>
-														<span>{items.category.toString()}</span>
-
+													<div className={classes.alignRight}>
+														<ListItemText
+															primary={`Date Create: ${new Date(items.createdAt.seconds * 1000).toLocaleDateString("fr-FR")}`}
+															secondary={`Category: ${items.category.toString()}`}
+														/>
 													</div>
 												</div>
 												<Input

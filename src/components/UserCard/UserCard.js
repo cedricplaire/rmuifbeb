@@ -26,11 +26,11 @@ function UserCard(props) {
 			</CardContent>
 			<CardContent>
 				<Typography variant='h5'>Your personnalized Theme</Typography>
-				<Typography color={user.theme.primaryColor}>
+				<Typography color="primary">
 					Primary Color :
 				</Typography>
 				<FiberManualRecordIcon color="primary" />
-				<Typography color={user.theme.secondaryColor}>
+				<Typography color="secondary">
 					Secondary Color :
 				</Typography>
 				<FiberManualRecordIcon color="secondary" />
