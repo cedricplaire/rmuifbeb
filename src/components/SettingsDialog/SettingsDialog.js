@@ -111,7 +111,7 @@ class SettingsDialog extends Component {
 		const { onDeleteAccountClick } = this.props;
 
 		const { selectedTab } = this.state;
-		console.log(theme);
+		// console.log(theme);
 
 		return (
 			<Dialog {...dialogProps} onExited={this.handleExited}>
