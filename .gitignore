@@ -9,6 +9,10 @@ node_modules
 !.vscode/launch.json
 !.vscode/extensions.json
 
+### My File ###
+startdevel-firebase-adminsdk-fciyz-4b05d83e26.json
+.env
+
 ### dotenv ###
 # .env
 
