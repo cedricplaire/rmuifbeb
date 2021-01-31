@@ -8,7 +8,17 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker,
 } from "@material-ui/pickers";
-import { TextField, Button, Snackbar } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  FormHelperText,
+  MenuItem,
+  Select,
+  Snackbar 
+} from "@material-ui/core";
+import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+
+const filter = createFilterOptions();
 
 const styles = (theme) => ({
   grid: {
@@ -62,6 +72,8 @@ class ArticleCreate extends React.Component {
         message: "",
         open: false,
       },
+      vertical: "top",
+      horizontal: "center",
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.ref = firestore.collection("articles");
@@ -73,6 +85,12 @@ class ArticleCreate extends React.Component {
     });
   }
 
+  handleCategoryChange = (event) => {
+    this.setState({
+      category: event.target.value,
+    });
+  };
+
   handleDateChange = (date) => {
     this.setState({
       createdAt: date,
@@ -81,8 +99,16 @@ class ArticleCreate extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-
     const { title, author, category, createdAt, content } = this.state;
+    if (!title || title === "" || title.length <= 5) {
+      this.openSnackbar("Title must not be empty and need a least 6 charactères");
+      return false;
+    }
+    if (!content || content === "" || content.length <= 25) {
+      this.openSnackbar("Title must not be empty and need a least 25 charactères");
+      return false;
+    }
+    if (this.props.categories)
 
     this.ref
       .add({
@@ -101,7 +127,7 @@ class ArticleCreate extends React.Component {
           content: "article body content",
         });
         this.openSnackbar("Article saved successfully !");
-        this.props.history.push("/blog");
+        //this.props.history.push("/blog");
       })
       .catch((error) => {
         console.error("Error adding article: ", error);
@@ -119,7 +145,7 @@ class ArticleCreate extends React.Component {
     this.ref = null;
   }
 
-  openSnackbar = (message, autoHideDuration = 2, callback) => {
+  openSnackbar = (message, autoHideDuration = 3, callback) => {
     this.setState(
       {
         snackbar: {
@@ -148,15 +174,15 @@ class ArticleCreate extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, categories } = this.props;
     const { author, title, category, createdAt, content } = this.state;
-    const { snackbar } = this.state;
+    const { snackbar, vertical, horizontal } = this.state;
 
     return (
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <div className={classes.divForm}>
           <Snackbar
-            anchorOrigin={{ vertical:"top", horizontal:"center" }}
+            anchorOrigin={{vertical, horizontal}}
             autoHideDuration={snackbar.autoHideDuration}
             message={snackbar.message}
             open={snackbar.open}
@@ -195,14 +221,67 @@ class ArticleCreate extends React.Component {
                   onChange={this.onInputChange}
                   value={title}
                 />
-                <TextField
+                {/* <TextField
                   id="input-category"
                   name="category"
                   label="article category"
                   color="secondary"
                   onChange={this.onInputChange}
                   value={category}
-                />
+                /> */}
+                <Autocomplete
+      value={category}
+      onChange={(event, newcategory) => {
+        if (typeof newcategory === 'string') {
+          this.setState({
+            category: newcategory,
+          });
+        } else if (newcategory && newcategory.inputValue) {
+          // Create a new value from the user input
+          this.setState({
+            category: newcategory.inputValue,
+          });
+        } else {
+          this.setState({category: newcategory});
+        }
+      }}
+      filterOptions={(options, params) => {
+        const filtered = filter(options, params);
+
+        // Suggest the creation of a new value
+        if (params.inputValue !== '') {
+          filtered.push({
+            inputValue: params.inputValue,
+            title: `Add "${params.inputValue}"`,
+          });
+        }
+
+        return filtered;
+      }}
+      selectOnFocus
+      clearOnBlur
+      handleHomeEndKeys
+      id="free-solo-with-text-demo"
+      options={categories}
+      getOptionLabel={(option) => {
+        // Value selected with enter, right from the input
+        if (typeof option === 'string') {
+          return option;
+        }
+        // Add "xxx" option created dynamically
+        if (option.inputValue) {
+          return option.inputValue;
+        }
+        // Regular option
+        return option.name;
+      }}
+      renderOption={(option) => option.name}
+      style={{ width: 300 }}
+      freeSolo
+      renderInput={(params) => (
+        <TextField {...params} label="Free solo with text demo" variant="outlined" />
+      )}
+    />
               </div>
               <div className={classes.divForm1}>
                 <TextField
