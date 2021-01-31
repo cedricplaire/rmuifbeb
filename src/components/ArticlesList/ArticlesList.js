@@ -8,9 +8,7 @@ import {
   ListItem,
   ListItemText,
   Input,
-  Icon,
 } from "@material-ui/core";
-import CalendarIcon from "@material-ui/icons/CalendarToday";
 
 const styles = (theme) => ({
   grid: {

@@ -47,8 +47,8 @@ const styles = (theme) => ({
 		padding: theme.spacing(2),
 	},
 	box: {
-		marginBottom: 20,
-		height: 75,
+		marginBottom: 2,
+		height: 100,
 	},
 	alignRight: {
 		display: "flex",
@@ -58,6 +58,10 @@ const styles = (theme) => ({
 		display: "inline-block",
 		marginRight: 10,
 	},
+	MuiAvatarRoot: {
+		width: "54px",
+		height: "54px",
+	}
 });
 
 class AdminPage extends Component {
@@ -129,10 +133,7 @@ class AdminPage extends Component {
 											</div>
 										</Box>
 										<div
-											style={{
-												display: "flex",
-												justifyContent: "flex-end",
-											}}
+											className={classes.alignRight}
 										>
 											<Button variant='contained'>
 												Edit
@@ -153,13 +154,10 @@ class AdminPage extends Component {
 										<UserAvatar
 											user={Object.assign(user, userData)}
 											context='standalone'
-											style={{ width: 128, height: 128 }}
+											className={classes.MuiAvatarRoot}
 										/>
 										<div
-											style={{
-												display: "flex",
-												justifyContent: "flex-end",
-											}}
+											className={classes.alignRight}
 										>
 											<Button variant='contained'>
 												Edit

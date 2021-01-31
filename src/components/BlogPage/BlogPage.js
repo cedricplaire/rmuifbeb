@@ -151,7 +151,7 @@ class BlogPage extends Component {
   };
 
   onLoadArticles = () => {
-    this.docRef
+    this.docRef.orderBy("createdAt", "desc")
       .get()
       .then((querySnapshot) => {
         const posts = [];
@@ -291,7 +291,7 @@ class BlogPage extends Component {
                   <div className={classes.listGrow}>
                     <Switch>
                       <Route path={`${path}/create`}>
-                        <ArticleCreate />
+                        <ArticleCreate categories={categories} />
                       </Route>
                       <Route path={`${path}`}>
                         <ArticlesList articles={articles} />
