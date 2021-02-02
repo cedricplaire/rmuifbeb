@@ -2,32 +2,17 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import readingTime from "reading-time";
 import firebase, { firestore, auth } from "../../firebase";
-<<<<<<< HEAD
 import articlesUtil from '../../services/articles';
-=======
->>>>>>> 6c065f6e61f9c75322d49068a3d65393a6f9d958
 import withStyles from "@material-ui/styles/withStyles";
 import MomentUtils from "@date-io/moment";
 import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker,
 } from "@material-ui/pickers";
-<<<<<<< HEAD
 import { TextField, Button, Snackbar } from "@material-ui/core";
 import Autocomplete, {
   createFilterOptions,
 } from "@material-ui/lab/Autocomplete";
-=======
-import {
-  TextField,
-  Button,
-  FormHelperText,
-  MenuItem,
-  Select,
-  Snackbar 
-} from "@material-ui/core";
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
->>>>>>> 6c065f6e61f9c75322d49068a3d65393a6f9d958
 
 const filter = createFilterOptions();
 
@@ -79,11 +64,7 @@ class ArticleCreate extends React.Component {
       author: "",
       content: "",
       snackbar: {
-<<<<<<< HEAD
         autoHideDuration: 3,
-=======
-        autoHideDuration: 0,
->>>>>>> 6c065f6e61f9c75322d49068a3d65393a6f9d958
         message: "",
         open: false,
       },
@@ -116,7 +97,6 @@ class ArticleCreate extends React.Component {
     e.preventDefault();
     const { title, author, category, createdAt, content } = this.state;
     if (!title || title === "" || title.length <= 5) {
-<<<<<<< HEAD
       this.openSnackbar(
         "Title must not be empty and need a least 6 charactères"
       );
@@ -131,10 +111,6 @@ class ArticleCreate extends React.Component {
     if (!articlesUtil.addCateg(category)) {
       this.openSnackbar('erreur when adding category')
       return;
-=======
-      this.openSnackbar("Title must not be empty and need a least 6 charactères");
-      return false;
->>>>>>> 6c065f6e61f9c75322d49068a3d65393a6f9d958
     }
     if (!content || content === "" || content.length <= 25) {
       this.openSnackbar("Title must not be empty and need a least 25 charactères");
@@ -159,11 +135,8 @@ class ArticleCreate extends React.Component {
           content: "article body content",
         });
         this.openSnackbar("Article saved successfully !");
-<<<<<<< HEAD
         this.props.history.push("/blog");
-=======
         //this.props.history.push("/blog");
->>>>>>> 6c065f6e61f9c75322d49068a3d65393a6f9d958
       })
       .catch((error) => {
         console.error("Error adding article: ", error);
@@ -218,11 +191,7 @@ class ArticleCreate extends React.Component {
       <MuiPickersUtilsProvider utils={MomentUtils}>
         <div className={classes.divForm}>
           <Snackbar
-<<<<<<< HEAD
             anchorOrigin={{ vertical, horizontal }}
-=======
-            anchorOrigin={{vertical, horizontal}}
->>>>>>> 6c065f6e61f9c75322d49068a3d65393a6f9d958
             autoHideDuration={snackbar.autoHideDuration}
             message={snackbar.message}
             open={snackbar.open}
@@ -270,7 +239,6 @@ class ArticleCreate extends React.Component {
                   value={category}
                 /> */}
                 <Autocomplete
-<<<<<<< HEAD
                   value={category}
                   onChange={(event, newcategory) => {
                     if (typeof newcategory === "string") {
@@ -327,60 +295,6 @@ class ArticleCreate extends React.Component {
                     />
                   )}
                 />
-=======
-      value={category}
-      onChange={(event, newcategory) => {
-        if (typeof newcategory === 'string') {
-          this.setState({
-            category: newcategory,
-          });
-        } else if (newcategory && newcategory.inputValue) {
-          // Create a new value from the user input
-          this.setState({
-            category: newcategory.inputValue,
-          });
-        } else {
-          this.setState({category: newcategory});
-        }
-      }}
-      filterOptions={(options, params) => {
-        const filtered = filter(options, params);
-
-        // Suggest the creation of a new value
-        if (params.inputValue !== '') {
-          filtered.push({
-            inputValue: params.inputValue,
-            title: `Add "${params.inputValue}"`,
-          });
-        }
-
-        return filtered;
-      }}
-      selectOnFocus
-      clearOnBlur
-      handleHomeEndKeys
-      id="free-solo-with-text-demo"
-      options={categories}
-      getOptionLabel={(option) => {
-        // Value selected with enter, right from the input
-        if (typeof option === 'string') {
-          return option;
-        }
-        // Add "xxx" option created dynamically
-        if (option.inputValue) {
-          return option.inputValue;
-        }
-        // Regular option
-        return option.name;
-      }}
-      renderOption={(option) => option.name}
-      style={{ width: 300 }}
-      freeSolo
-      renderInput={(params) => (
-        <TextField {...params} label="Free solo with text demo" variant="outlined" />
-      )}
-    />
->>>>>>> 6c065f6e61f9c75322d49068a3d65393a6f9d958
               </div>
               <div className={classes.divForm1}>
                 <TextField
