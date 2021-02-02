@@ -7,9 +7,9 @@ import Typography from "@material-ui/core/Typography";
 import UserAvatar from "../UserAvatar";
 import {
 	FiberManualRecord as FiberManualRecordIcon,
-	Brightness4 as Brightness4Icon,
+	//Brightness4 as Brightness4Icon,
 } from "@material-ui/icons";
-import appearance from "../../services/appearance";
+//import appearance from "../../services/appearance";
 
 function UserCard(props) {
 	const user = props.user;

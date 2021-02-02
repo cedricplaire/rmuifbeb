@@ -74,7 +74,7 @@ const styles = (theme) => ({
   },
   box: {
     marginBottom: 10,
-    height: 30,
+    height: 26,
   },
   listGrow: {
     flexGrow: 1,
@@ -237,7 +237,7 @@ class BlogPage extends Component {
                       Filter by category
                     </Typography>
                   </div>
-                  <div>
+                  <div className={classes.blockCol}>
                     <FormControl fullWidth>
                       <InputLabel id="categ-select-label">Category</InputLabel>
                       <Select
@@ -263,7 +263,7 @@ class BlogPage extends Component {
                 </Paper>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Paper className={classes.paper} style={{ minHeight: 158 }}>
+                <Paper className={classes.paper}>
                   <div className={classes.box}>
                     <Typography
                       style={{
@@ -272,23 +272,30 @@ class BlogPage extends Component {
                       color="secondary"
                       gutterBottom
                     >
-                      Create new article
+                      Ajouter un nouvel article
                     </Typography>
                   </div>
-                  <div className={classes.block}>
-                    <Button
-                      component={Link}
-                      to={`${url}/create`}
-                      variant="contained"
-                    >
-                      Go to
-                    </Button>
+                  <div className={classes.blockCol}>
+                    <div>
+                      <Typography className={classes.box}>
+                        Envie de partager vos idées avec les autres ?
+                      </Typography>
+                    </div>
+                    <div className={classes.alignRight}>
+                      <Button
+                        component={Link}
+                        to={`${url}/create`}
+                        variant="contained"
+                      >
+                        Créer ...
+                      </Button>
+                    </div>
                   </div>
                 </Paper>
               </Grid>
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
-                  <div className={classes.listGrow}>
+                  <div className={classes.blockPaper}>
                     <Switch>
                       <Route path={`${path}/create`}>
                         <ArticleCreate categories={categories} />
