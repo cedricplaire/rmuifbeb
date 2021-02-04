@@ -4,6 +4,7 @@ import WithStyles from "@material-ui/styles/withStyles";
 import { withRouter, Link, Route, Switch } from "react-router-dom";
 import ArticlesList from "../ArticlesList";
 import ArticleCreate from "../ArticleCreate";
+import articles from '../../services/articles';
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import {
@@ -126,20 +127,9 @@ class BlogPage extends Component {
     });
   };
 
-  onLoadCategories = (querySnapshot) => {
-    this.categsRef = firestore.collection("categories");
-    this.categsRef
-      .get()
-      .then((querySnapshot) => {
-        const categ = [];
-        querySnapshot.forEach((doc) => {
-          const { name } = doc.data();
-
-          categ.push({
-            key: doc.id,
-            name,
-          });
-        });
+  onLoadCategories = () => {
+    articles.listCateg()
+      .then((categ) => {
         this.setState({
           categories: categ,
           category: categ[0].name,
@@ -151,30 +141,8 @@ class BlogPage extends Component {
   };
 
   onLoadArticles = () => {
-    this.docRef.orderBy("createdAt", "desc")
-      .get()
-      .then((querySnapshot) => {
-        const posts = [];
-        querySnapshot.forEach((doc) => {
-          const {
-            title,
-            author,
-            authorId,
-            createdAt,
-            content,
-            category,
-          } = doc.data();
-
-          posts.push({
-            key: doc.id,
-            title,
-            author,
-            authorId,
-            createdAt,
-            content,
-            category,
-          });
-        });
+    articles.listAll()
+      .then((posts) => {
         this.setState({
           articles: posts,
         });

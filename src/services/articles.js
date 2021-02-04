@@ -6,28 +6,22 @@ const articlesUtil = {};
 
 articlesUtil.listCateg = () => {
   return new Promise((resolve, reject) => {
-    const currentUser = auth.currentUser;
-
-    if (!currentUser) {
-      reject();
-
-      return;
-    }
-
-    const uid = currentUser.uid;
-
-    if (!uid) {
-      reject();
-
-      return;
-    }
 
     const categRef = firestore.collection("categories");
 
     categRef
       .get()
-      .then((value) => {
-        resolve(value);
+      .then((querySnapshot) => {
+        const categ = [];
+        querySnapshot.forEach((doc) => {
+          const { name } = doc.data();
+
+          categ.push({
+            key: doc.id,
+            name,
+          });
+        });
+        resolve(categ);
       })
       .catch((reason) => {
         reject(reason);
@@ -99,18 +93,34 @@ articlesUtil.listAll = () => {
       return;
     }
 
-    const articlesRef = firestore.collection("articles");
+    const articlesRef = firestore.collection("articles").orderBy("createdAt", "desc");
 
     articlesRef
       .get()
-      .then((value) => {
-        resolve(value);
+      .then((querySnapshot) => {
+        const posts = [];
+        querySnapshot.forEach((doc) => {
+          const {
+            title,
+            author,
+            authorId,
+            createdAt,
+            content,
+            category,
+          } = doc.data();
+
+          posts.push({
+            key: doc.id,
+            title,
+            author,
+            authorId,
+            createdAt,
+            content,
+            category,
+          });
+        });
+        resolve(posts);
       })
-      /* .then((querySnapshot) => {
-				const data = querySnapshot.docs.map((doc) => doc.data());
-				console.log(data); // array of cities objects
-				resolve(data);
-			}) */
       .catch((reason) => {
         reject(reason);
       });
