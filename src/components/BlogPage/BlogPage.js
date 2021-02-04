@@ -140,8 +140,8 @@ class BlogPage extends Component {
       });
   };
 
-  onLoadArticles = () => {
-    articles.listAll()
+  onLoadArticles = (categName) => {
+    articles.listAll(categName)
       .then((posts) => {
         this.setState({
           articles: posts,
@@ -160,13 +160,14 @@ class BlogPage extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.category !== this.state.category) {
       if (this.state.category !== "All") {
-        this.docRef = firestore
+        /* this.docRef = firestore
           .collection("articles")
-          .where("category", "==", this.state.category);
+          .where("category", "==", this.state.category); */
+          this.onLoadArticles(this.state.category)
       } else {
-        this.docRef = firestore.collection("articles");
+        //this.docRef = firestore.collection("articles");
+        this.onLoadArticles();
       }
-      this.onLoadArticles();
     }
   }
 

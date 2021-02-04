@@ -75,7 +75,7 @@ articlesUtil.addCateg = (name) => {
   });
 };
 
-articlesUtil.listAll = () => {
+articlesUtil.listAll = (categ) => {
   return new Promise((resolve, reject) => {
     const currentUser = auth.currentUser;
 
@@ -92,8 +92,12 @@ articlesUtil.listAll = () => {
 
       return;
     }
-
-    const articlesRef = firestore.collection("articles").orderBy("createdAt", "desc");
+    let articlesRef = "";
+    if (categ) {
+      articlesRef = firestore.collection("articles").where("category", "==", categ).orderBy("createdAt", "desc");
+    } else {
+      articlesRef = firestore.collection("articles").orderBy("createdAt", "desc");
+    }
 
     articlesRef
       .get()
