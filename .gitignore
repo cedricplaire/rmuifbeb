@@ -10,16 +10,12 @@ node_modules
 !.vscode/extensions.json
 .bfg.jar
 /.bfg.jar
-### My File ###
-startdevel-firebase-adminsdk-fciyz-4b05d83e26.json
-.env
 
 ### My File ###
 startdevel-firebase-adminsdk-fciyz-4b05d83e26.json
-.env
 
 ### dotenv ###
-# .env
+.env
 
 ### Firebase ###
 .idea
