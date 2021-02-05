@@ -8,11 +8,11 @@ node_modules
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-.bfg.jar
-/.bfg.jar
 
 ### My File ###
 startdevel-firebase-adminsdk-fciyz-4b05d83e26.json
+.bfg.jar
+/.bfg.jar
 
 ### dotenv ###
 .env
