@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-
 import PropTypes from "prop-types";
-
 import { withRouter } from "react-router-dom";
 
 import { auth } from "../../firebase";
-
 import authentication from "../../services/authentication";
-
 import EmptyState from "../EmptyState";
 
 import { ReactComponent as CabinIllustration } from "../../illustrations/cabin.svg";

@@ -94,7 +94,7 @@ class AdminPage extends Component {
 									gutterBottom
 									className={classes.pageTitle}
 								>
-									Administrations options and actions for{" "}
+									Administrations options and actions for {" "}
 									{user.username}
 								</Typography>
 							</div>

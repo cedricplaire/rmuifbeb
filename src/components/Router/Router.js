@@ -10,6 +10,7 @@ import AdminPage from "../AdminPage";
 import UserPage from "../UserPage";
 import BlogPage from "../BlogPage";
 import NewsPage from "../NewsPage";
+import TutorialsPage from "../TutorialsPage";
 import NotFoundPage from "../NotFoundPage";
 
 class Router extends Component {
@@ -35,6 +36,10 @@ class Router extends Component {
 
 					<Route path='/blog'>
 						<BlogPage user={user} openSnackbar={openSnackbar} />
+					</Route>
+
+					<Route path='/tutorials'>
+						<TutorialsPage openSnackbar={openSnackbar} />
 					</Route>
 
 					<Route path='/news'>
